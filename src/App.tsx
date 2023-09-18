@@ -1,7 +1,12 @@
 import "./App.css";
+import { HOCEnhancedUserTable } from "./components/HOCEnhancedUserTable/HOCEnhancedUserTable";
 
 function App() {
-  return <>React Composition Patterns</>;
+  return (
+    <>
+      <HOCEnhancedUserTable />
+    </>
+  );
 }
 
 export default App;
