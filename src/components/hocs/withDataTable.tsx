@@ -12,8 +12,16 @@ export default function withDataTable(
 
     const filteredData =
       filter && data
-        ? [...data.filter((item) => item.name == filter)]
+        ? [
+            ...data.filter((item) =>
+              item.name.toLocaleLowerCase().startsWith(filter)
+            ),
+          ]
         : [...(data ?? [])];
+
+    function handleFilterChange(e: React.ChangeEvent<HTMLInputElement>) {
+      setFilter(e.target.value.toLocaleLowerCase());
+    }
 
     useEffect(() => {
       (async () => {
@@ -22,6 +30,12 @@ export default function withDataTable(
       })();
     }, []);
 
-    return <Component data={filteredData} setFilter={setFilter} />;
+    return (
+      <Component
+        data={filteredData}
+        filter={filter}
+        handleFilterChange={handleFilterChange}
+      />
+    );
   };
 }
