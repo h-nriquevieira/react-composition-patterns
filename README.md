@@ -1,27 +1,29 @@
-# React + TypeScript + Vite
+# React Composition Patterns
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Example code of three composition patterns for React components: Higher Order Components (HOCs), Render Props and Custom Hooks.
 
-Currently, two official plugins are available:
+## Summary
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+All three versions essentially perform the same task, which is abstracting the logic for fetching and filtering data away from the table's UI.
 
-## Expanding the ESLint configuration
+From this simple example, and everything I studied before this, I'm under the impression that, in most cases, hooks provide the most elegant solution.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+That said, I can think of situations where the other two might prove useful:
 
-- Configure the top-level `parserOptions` property like this:
+### HOCs
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+For when some logic or presentation needs to be shared exactly the same between multiple components.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+As an example, a withDataFetching HOC could handle the conditional rendering of loading and error messages on components that fetch data, as long as every component shares the same UI for these states.
+
+If there's a need to implement custom UI or logic for these states, hooks would be easier to write, and more importantly, easier to read and mantain. It can be done with HOCs, but it gets much more complex.
+
+### Render Props
+
+One particularly useful concept is the notion of slots, combined with the render props pattern.
+
+Take a news article component, for example. Say that on one page, only the main article should be displayed. On a different page, however, maybe you want to show related articles, or maybe some ads based on the article's topic. Maybe both, or something else.
+
+The main component could have slots, that render optional render props, passed to it whenever appropriate.
+
+Of course, this could easily be done with just regular props and conditional rendering, but this pattern seems very suitable for this use case.
